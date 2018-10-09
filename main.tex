@@ -1,19 +1,19 @@
-%\documentclass[10pt, conference]{IEEEtran}
-\documentclass[sigconf]{acmart}
+\documentclass[10pt, conference]{IEEEtran}
+% \documentclass[sigconf]{acmart}
 
 % ACM stuff
-\setcopyright{rightsretained}
-\acmDOI{10.475/123_4}
+% \setcopyright{rightsretained}
+% \acmDOI{10.475/123_4}
 
 % ISBN
-\acmISBN{123-4567-24-567/08/06}
+% \acmISBN{123-4567-24-567/08/06}
 
 %Conference
-\acmConference[ICSE'18]{International Conference on Software Engineering}{May 2018}{Gothenburg, Sweden} 
-\acmYear{2017}
-\copyrightyear{2017}
-\acmArticle{4}
-\acmPrice{15.00}
+% \acmConference[ICSE'18]{International Conference on Software Engineering}{May 2018}{Gothenburg, Sweden} 
+% \acmYear{2017}
+% \copyrightyear{2017}
+% \acmArticle{4}
+% \acmPrice{15.00}
 % ACM stuff (end)
 
 \usepackage{color}
@@ -25,38 +25,46 @@
 \newcommand{\rk}[1]{{\textcolor{red}{\textbf{Raffi:}~#1}}} 
 %\newcommand{\updated}[1]{{\textcolor{blue}{#1}}}
 \newcommand{\updated}[1]{#1}
-\newcommand{\shortname}{WAPI}
+\newcommand{\shortname}{FOOPL}
 
 \begin{document}
 
-\title{\shortname{}: International Workshop on API Usage and Evolution}
+\title{\shortname{}: International Workshop on Functional-Inspired Language Features in Mainstream Object-Oriented Programming Languages}
 
 
 % author names and affiliations
 % use a multiple column layout for up to two different
 % affiliations
-\newcommand\tud[0]{\textsuperscript{\normalfont \textdagger}}
-\newcommand\iowa[0]{\textsuperscript{\normalfont \textparagraph}}
-\newcommand\utd[0]{\textsuperscript{\normalfont \ddag}}
-\newcommand\lanu[0]{\textsuperscript{\normalfont \textsection}}
-\newcommand\ualberta[0]{\textsuperscript{\normalfont \textasteriskcentered}}
+% \newcommand\tud[0]{\textsuperscript{\normalfont \textdagger}}
+% \newcommand\iowa[0]{\textsuperscript{\normalfont \textparagraph}}
+% \newcommand\utd[0]{\textsuperscript{\normalfont \ddag}}
+% \newcommand\lanu[0]{\textsuperscript{\normalfont \textsection}}
+% \newcommand\ualberta[0]{\textsuperscript{\normalfont \textasteriskcentered}}
 
 % authors
 % IEEE authors
 %\author{\IEEEauthorblockN{Sven Amann\textsuperscript{\textdagger}, Sarah Nadi\textsuperscript{\ddag}, Hoan Anh Nguyen\textsuperscript{\textsection}, Tien N. Nguyen\textsuperscript{*}, Raffi Katchadourian\textsuperscript{$\top$}}
 %\IEEEauthorblockA{Technische Universit\"{a}t Darmstadt\textsuperscript{\textdagger}, University of Alberta\textsuperscript{\ddag}, Iowa State University\textsuperscript{\textsection},\\ University of Texas at Dallas\textsuperscript{*}, City University of New York\textsuperscript{$\top$}}
 %}
+\author{\IEEEauthorblockN{Raffi Khatchadourian}
+\IEEEauthorblockA{\textit{City University of New York (CUNY) Hunter College}\\
+raffi.khatchadourian@hunter.cuny.edu}
+\and
+\IEEEauthorblockN{Mehdi Bagherzadeh}
+\IEEEauthorblockA{\textit{Oakland University}\\
+mbagherzadeh@oakland.edu}
+}
 % ACM authors
-\author{Sven Amann}
-\affiliation{Technische Universit\"{a}t Darmstadt}
-\author{Sarah Nadi}
-\affiliation{University of Alberta}
-\author{Hoan Anh Nguyen}
-\affiliation{Iowa State University}
-\author{Tien N. Nguyen}
-\affiliation{University of Texas at Dallas}
-\author{Raffi Katchadourian}
-\affiliation{City University of New York}
+% \author{Sven Amann}
+% \affiliation{Technische Universit\"{a}t Darmstadt}
+% \author{Sarah Nadi}
+% \affiliation{University of Alberta}
+% \author{Hoan Anh Nguyen}
+% \affiliation{Iowa State University}
+% \author{Tien N. Nguyen}
+% \affiliation{University of Texas at Dallas}
+% \author{Raffi Katchadourian}
+% \affiliation{City University of New York}
 % authors (end)
 
 % ACM stuff
@@ -75,16 +83,14 @@
 
 
 % IEEE wants it here
-% \maketitle
+\maketitle
 
 \begin{abstract}
-Application Programming Interfaces (APIs) are an essential mechanism for software reuse. Over the past two decades, many researchers have addressed inherent problems with APIs, such as providing more useful documentation for proper use, detecting wrong usage patterns, migrating between API versions, and evolving APIs. While research efforts have advanced the state of the art, most of these problems still exist today. We believe it is time to reflect and compare experiences from different perspectives and come up with new solutions to the above challenges. This workshop will advance the state of research of APIs by combining perspectives of the end users, designers, and maintainers of APIs.
-
-In addition to attracting the community of researchers that usually attend ICSE and its co-located events (e.g., MSR, ICPC), we will make intensive efforts to involve local industry participants who can share their experience in using and maintaining APIs, as well as researchers from Scandinavia.
+	\input{abstract.txt}
 \end{abstract}
 
 % ACM wants it here
-\maketitle
+% \maketitle
 
 
 \section{Organizer Contact Information}
@@ -217,9 +223,9 @@ The preliminary website for the workshop as well as the call for papers can be f
 \end{itemize}
 
 % IEEE references
-%\bibliographystyle{myabbrv_withpagesandpublisher}
+\bibliographystyle{myabbrv_withpagesandpublisher}
 % ACM references
-\bibliographystyle{ACM-Reference-Format}
+% \bibliographystyle{ACM-Reference-Format}
 \bibliography{refs.bib}
 
 \newpage
@@ -289,5 +295,3 @@ Topics of interest include, but are not limited to:
 The official publication date of the workshop proceedings is the date the proceedings are made available in the ACM Library. This date may be up to two weeks prior to the first day of ICSE 2018. The official publication date affects the deadline for any patent filings related to published work.
 
 \end{document}
-
-
