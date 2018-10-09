@@ -31,7 +31,6 @@
 
 \title{\shortname{}: International Workshop on Functional-Inspired Language Features in Mainstream Object-Oriented Programming Languages}
 
-
 % author names and affiliations
 % use a multiple column layout for up to two different
 % affiliations
@@ -81,7 +80,6 @@ mbagherzadeh@oakland.edu}
 
 % ACM stuff (end)
 
-
 % IEEE wants it here
 \maketitle
 
@@ -92,206 +90,269 @@ mbagherzadeh@oakland.edu}
 % ACM wants it here
 % \maketitle
 
-
 \section{Organizer Contact Information}
+
 \begin{itemize}
-\setlength\itemsep{5pt}
-\item \textbf{Sven Amann (main contact),} Technische Universit\"{a}t Darmstadt, Email: amann@cs.tu-darmstadt.de
-\item \textbf{Sarah Nadi,} University of Alberta,\\Email: nadi@ualberta.ca
-\item \textbf{Tien N. Nguyen,} University of Texas at Dallas,\\Email: tien.n.nguyen@utdallas.edu
-\item \textbf{Hoan Anh Nguyen,} Iowa State University,\\Email: hoan@iastate.edu
-\item \textbf{Raffi Khatchadourian,} City University of New York,\\Email: raffi.khatchadourian@hunter.cuny.edu
+	\item \textbf{Raffi Khatchadourian (main contact),} City University of New York (CUNY) Hunter College, Email: raffi.khatchadourian@hunter.cuny.edu
+	\item \textbf{Mehdi Bagherzadeh,} Oakland University, Email: mbagherzadeh@oakland.edu
 \end{itemize}
 
 \section{Motivation and Objectives}
 %Motivation of the workshop's relevance to the field of software engineering.
-Application Programming Interfaces (APIs) are an essential mechanism for software reuse. Software developers use a library or framework's APIs to leverage already implemented functionality. In order to do so, they first have to understand which available libraries provide the desired functionality, what each library's trade-offs are\updated{~\cite{ZHHK17}}, and which special setup each may require. Once an adequate library has been identified, developers need to figure out the respective API's \textit{specification}, which defines the way the API can be used. For example, they need to understand which types to use and which methods to call in which order and with which parameter-values, in order to leverage the desired functionality. This is only the beginning of the journey. If the library's developers decide to change its APIs, this might break existing software that relies on a previous version of the API\@. Thus, as the API evolves, users must decide whether or not they want to migrate to the new API version and determine how the changes will impact their code\updated{, a process that is subject to complex dynamics~\cite{JKR+17}}.
 
-There has been a vast amount of research that tackles each of the above problems separately (e.g.,~\cite{Subramanian:2014,RobillardInferenceSurvey,RobillardLearn09, NNP+09, ThungLibRec}). However, recent work shows that API usability and evolution are still issues~\cite{NKMB16, BKHT:FSE16, SunshineAPIProtocol}, often with severe consequences such as security vulnerabilities. For example, a recent study showed that 83\% of 269 studied security vulnerabilities are due to the incorrect use of cryptography APIs~\cite{Lazar2014}. Similarly, Egele et al.~found that 88\% of almost 12,000 studied Android apps make at least one security violation when using the Java cryptography APIs~\cite{EgeleBFK13}. An even scarier fact is that well-established companies such as Amazon and PayPal also seem to make mistakes when using the APIs for SSL certificate validation~\cite{GeorgievIJABS12}. Misusing security APIs definitely has dire consequences, and some of the difficulties developers have are specific to the complex nature of these APIs~\cite{NKMB16}. However, other studies showed that developers still struggle with more general-purpose APIs~\cite{SunshineAPIProtocol} and that many software-crashing bugs are actually due to not understanding the implicit specifications of the underlying APIs~\cite{amani2016mubench}\updated{, partly due to a lack of up-to-date documentation~\cite{RMS17}. This is especially true in the fast-lived, dynamic domain of Web APIs~\cite{WYZ+17} where we have comparably little support by established mechanisms, such as type systems. Even statically typed environments do not provide as much assistance to developers as they could~\cite{KS17}.}
+The use of constructs from functional programming languages in mainstream Object-Oriented languages is becoming increasingly pervasive~\cite{Biboudis2015}. For example, developers can now use lambdas, stream, and MapReduce-style~\cite{Dean2008} computations in languages such as Java~\cite{OracleCorporation2017} (and Android~\cite{Lau2017}), C\#~\cite{Microsoft2018}, F\#~\cite{fsharp} and Scala~\cite{Lausanne2015}, to name a few. Through these mechanisms, developers can declaratively process native data structure like collections and infinite data structures. Streaming Application Programmer Interfaces (APIs), for instance, available in many mainstream Object-Oriented (OO) programming languages, support this paradigm fusing. Other mechanisms include lambdas, i.e., (typically stateless) first-class computational units facilitating deferred execution~~\cite{OracleCorporation2015,Wagner2017}, and option types, i.e., nomadic types supporting MapReduce-style operations.
+
+These language features have many benefits~\cite[Ch.~1]{Warburton2014}, including succinct~\cite{Mazinanian2017} and nearly effortless (syntax-wise) parallelism~\cite{OracleCorporation2015a}. However, combining the paradigms may result in code that behaves in ways not expected by developers. For instance, unexpected errors and suboptimal performance may be incurred as subtle considerations are required to produce code that is correct, optimally parallelizable, efficient, reliable, and free of bugs related to nontermination, nondeterminism, and mismanaged resource cleanup in using these constructs~\cite{Oracle2017d}. Moreover, constructs and APIs may not behave in ways developers expect. Developers may also not prefer to use these constructs to write concurrent code~\cite{Nielebock2018}, perhaps missing opportunities where this modern technology may be beneficial~\cite{Tang2018}. And, API developers may be restricted in writing libraries that are maximally usable and extendable due to current language design~\cite{Biboudis2015}.
+
+One significant problem is that MapReduce is traditionally highly distributed with no shared memory, whereas streaming APIs in mainstream OO languages execute within a single node under multiple threads sharing the same memory. This difference makes using these constructs and APIs prone to such problems as thread contention, necessitating great care in writing correct yet efficient code. Moreover, discovering and repairing these problems may involve complex interprocedural whole-program analysis, a thorough understanding of construct intricacies, and detailed knowledge of situational API replacements. Manually detecting problematic code areas (smells~~\cite{Tufano2015,Fowler2008}) and uncovering appropriate optimizations that transform source code while preserving its original semantics (refactoring~\cite{Opdyke1992,Fowler1999}) can be daunting~\cite{Dig2009}, especially in large and complex projects or where developers are unfamiliar with how best to use such constructs and APIs.
 
 \subsection{Goals and Outcomes}\label{sec:goals}
 %Anticipated goals and outcomes of the workshop (e.g., open research problems to pursue, validation objectives, empirical studies).
-To create a more comprehensive solution that allows easier and more correct usages of APIs, we believe that it is time to reflect and consolidate results and experiences from different perspectives on APIs and to come up with solutions to some of the open problems that still need to be addressed such as:
 
-\begin{itemize}
-\setlength\itemsep{5pt}
+The 1\textsuperscript{st} International Workshop on Functional-inspired Language Features in Mainstream Object-Oriented Programming Languages (FOOPL) aims to bring together both practitioners and researchers interested in this emerging topic with the goal of sharing results and ideas in solving crucial problems in the mass adaptation, correct usage, language and API design and implementation, and tool support of functional-inspired language constructs in mainstream OO languages. The workshop will also cover a broader view of this technology by incorporating additional artifacts beyond code, including requirements, specification, and tests for this new paradigm.
 
-\item \textbf{API Design:} How can we connect API designers with developers consuming their APIs? Can we help API designers improve their API based on how developers use it? Can we automatically identify frequent similar usages or usage clones as candidates to extend a library's functionality?
-
-\item \textbf{API-Usage Recommenders and Misuse Detectors:} To propose ways to use an API or to detect whether some client code correctly uses an API, most techniques rely on mining patterns or specifications from large amounts of client code. The underlying assumption here is that the majority of users ``do it right,'' while the anomalous behavior represents the misuse. However, this is not always the case. One important example is security APIs. How can we make use of the vast amount of available client code but still accurately identify correct patterns? What would be the best representation for these patterns? Additionally, what is the best way to present these usage recommendations or misuse-detection results to the developer? 
-
-\item \textbf{API Quality:} When faced with a choice of multiple APIs that provide the same functionality, what makes one API better than another? What are suitable quality metrics of an API and can we automatically measure them?
-
-\item\textbf{API Documentation:} How can we provide better documentation for APIs? What kind of documentation would end users find useful? How can we ensure up-to-date documentation? And which format best supports developers in grasping an API's specification?
-
-\item \textbf{API Maintenance \& Evolution:} How can we help library designers safely evolve their APIs, e.g., to take advantage of new language features and/or platforms? How can we detect breaking changes in APIs? How can we help the API users migrate their code to new API versions?
-
-\end{itemize}
-
-The aim of the workshop is to create a synergy between the above research topics with the overall goal of improving the design and use of APIs. Addressing these topics combines multiple research areas such as program analysis, program transformation (e.g., refactoring), usability and HCI, mining software repositories, information retrieval in software engineering, and software evolution. The workshop also provides a means for young researchers to understand the open challenges in the area and to discuss their ideas for addressing them. \updated{To further these goals, we plan to submit the workshop results as a New Ideas Paper at one of the top software engineering venues.}
+Practitioners and researchers will be encouraged to engage in thought-provoking discussions surrounding these topics so that this relatively new technology has the best support for success. The workshop will also provide a productive and constructive setting for industry and academia collaboration. Our goal will be to foster new and existing collaborations, as well as help elevate working ideas into mature conference or journal papers or industrial ideas.
 
 \section{Format and Required Services}
 
 %Workshop format (e.g., paper presentations, keynotes, breakout sessions, panel-like discussions) and plans for generating and stimulating discussions.
 %Desired length of the workshop (i.e. 1 or 2 days).
 %Special services that are needed; logistic and/or equipment constraints.
-\updated{In the first edition of the workshop (2017), we had three sessions with presentations and one session with a discussion at the end. The first edition of the workshop already brought up many interesting challenges during the discussions. In the second edition of 2018, we want to produce actionable ideas for how to address these challenges. Inspired by the work of Robillard et al.~\cite{RMT+17}, we plan to document these ideas by writing, together with the participants, a New Ideas Paper that can be published in one of the upcoming software engineering conferences. In preparation of the workshop, we will derive a set of questions from the accepted submissions and ask participants for feedback, to ensure that the questions adequately reflect the current challenges that the community faces. These questions will serve as a framework for the workshop discussions and to keep them focused on actionable ideas. After the workshops we will draft a publication from the discussion results and ask participants to contribute to it.
-%
-Based on this idea,} we propose a 1-day workshop with the following format:
+
+In our first edition of this workshop, we plan to have three sessions with presentations and one session with a discussion at the end. We would like to bring up many interesting challenges and open work during the discussions, as well as help ongoing projects flourish. To help identify open problems, in preparation of the workshop, we will derive a set of questions from the accepted submissions and ask participants for feedback, to ensure that the questions adequately reflect the current challenges that the community faces. These questions will serve as a framework for the workshop discussions and to keep them focused on actionable ideas. 
+
+We propose a 1-day workshop with the following format:
 
 \begin{itemize}
-\setlength\itemsep{5pt}
-\item \textbf{Morning keynote speaker.} This will either be an established researcher who provides some background of the area and the open challenges or a practitioner who can highlight the current challenges faced in industry.
-\item \textbf{Presentation session.} \updated{The presentations will be kept short and focus on presenting the main open challenges of the respective work, as inspiration for the following breakout sessions.}
-\item \textbf{Breakout sessions.} \updated{We will have breakout sessions in the afternoon, where participants will be divided into different groups. The goal of these sessions is to enable more in-depth discussion of challenges presented in the talks. This will also help those interested in similar topics to foster new collaborations. We will provide guidelines of what the outcomes of these discussions will be, such that participants can present their results at the end of the workshop.}
+
+	\item \textbf{Morning keynote speaker.} This will either be an established researcher who provides some background of the area and the open challenges or a practitioner who can highlight the current challenges faced in industry.
+
+	\item \textbf{Presentation session.} The presentations will be kept short and focus on presenting the main open challenges of the respective work, as inspiration for the following breakout sessions.
+
+	\item \textbf{Breakout sessions.} We will have breakout sessions in the afternoon, where participants will be divided into different groups. We will encourage the mixing of people from academia and industry. The goal of these sessions is to enable more in-depth discussion of challenges presented in the talks. This will also help those interested in similar topics to foster new collaborations. We will provide guidelines of what the outcomes of these discussions will be, such that participants can present their results at the end of the workshop.
+
 \end{itemize}
 
-To run the workshop, we would need a room that is equipped with a projector and a flip chart/whiteboard, and that can hold around 40 people.
+To run the workshop, we would need a room that is equipped with a projector and a flip chart/whiteboard to record the ideas generated by the attendees.
 
 \section{Target Audience}
 
-Our goal is to have 20--40 participants from both industry and academia. Given the relevance of the workshop's topic to the ICSE audience, we expect around 30 participants.
+Our goal is to have 20--40 participants from both industry and academia. Given that this will be the first year of the workshop and that this area is relatively new, we expect around 20 participants.
 
 \subsection{Attendee Background} 
 %Required background of the workshop attendees.
 %Whether a Mix of industry and research participants is being sought.
 %Desired minimum and maximum number of workshop participants, expected number of participants.
-We aim for a variety of target-audience background, with respect to the perspective from which participants look at APIs. For example, the audience may have backgrounds such as program analysis, usability and HCI, mining software repositories, or software evolution. Alternatively, they may be end-users of APIs who are interested in voicing suggestions or concerns about their current experience in using (certain) APIs in their projects. That way, participants who specialize in one aspect of working with APIs can learn about other related areas and share insights from their particular viewpoints.
 
-\subsection{Participant Selection}
+We will encourage a diverse set of attendees to foster interesting discussion at the workshop. Backgrounds may include program analysis, software evolution, formal methods (for specification), empirical software engineering, requirements engineering, software testing and transformation, run time verification, language and tool engineering, and search-based software engineering. We believe that this wide variety of background will naturally lend itself to attract people from both academia and industry.
+
+\subsection{Participant Selection and Solicitation}
 %Participant solicitation and selection process, including whether the workshop will be open or closed.
-The goal of the workshop is to come up with new directions for improving the design, maintenance, and use of APIs and overcoming the challenges that emerged over the past several years. To that end, the workshop will be open to anyone who would like to attend and contribute to the discussion. While paper proceedings and talks will undergo a selection process, everyone is welcome to register for attending the workshop. 
+
+The workshop will be open to anyone who would like to attend and contribute to the discussion. While papers will be peer-reviewed, everyone is welcome to register for attending the workshop. Participants will be solicited by various means, including prominent email lists and social media. We will also identify industry \emph{and} academic conferences for which fliers will be placed. Since this is the first year of the workshop, we will also ask our program committee members to help spread the word about the workshop.
 
 \section{Proceedings}
 %How many and what type of contributions will be solicited (number of pages and type: extended abstracts, position and/or research papers, etc.).
 
-We will solicit research papers, practice papers, position papers, or experience reports. All types of papers will be four pages long. To encourage local industry participation, we will also call for talk abstracts. Such talks can focus on challenges faced in industry and stir up interesting discussion in the workshop. We will seek help from the local ICSE organizers to get us in touch with local contacts and forward the workshop's CFP to relevant industry participants.
+We will solicit research papers, practice papers, position papers, and experience reports. To encourage more discussion, papers will be limited to four pages. To attract local industry participation, we will also call for talk abstracts. Such talks can focus on challenges faced in industry and motivate future research projects. We will seek assistance from the local ICSE organizers to contact local practitioners and forward the workshop's CfP to relevant industry participants.
 
 \subsection{Evaluation Process}
 %Evaluation process that will be used to decide the acceptance of submissions.
 %A list of program committee members, including proposed and committed members.
-All four types of submissions will be peer-reviewed by three program committee (PC) members. Below is a list of the proposed PC members, where names in bold are members who have already agreed to serve on the PC\@.
+
+All four types of submissions will be peer-reviewed by three program committee (PC) members. The submissions will be evaluated on relevance to the workshop topic, interest level of the anticipated participants, presentation and organization of ideas, and potential for engaging discussion at the workshop. Below is a list of the proposed committee members, where names in bold those who have already agreed to serve:
 
 \begin{enumerate}
-\setlength\itemsep{5pt}
-\item \textbf{Christoph Treude, University of Adelaide}
-\item \textbf{Martin Robillard, McGill University}
-\item \textbf{Erik Wittern, IBM T. J. Watson Research Center}
-\item Danny Dig, Oregon State University
-\item \textbf{Aiko Yamashita, Oslo and Akershus University College of Applied Sciences}
-\item \textbf{Collin McMillan, University of Notre Dame}
-\item \textbf{Rob Walker, University of Calgary}
-\item \textbf{Hyrum Wright, duolingo}
-\item \textbf{Hidehiko Masuhara, Tokyo Institute of Technology}
-\item \textbf{Mehdi Bagherzadeh, Oakland University}
-\item Paige Rodeghero, University of Notre Dame
-\item Martin Montperrus, KTH Royal Institute of Technology
-\item Sebastian Proksch, University of Zurich
-\item Michael Pradel, TU Darmstadt
-\item Shigeru Chiba, University of Tokyo
+
+	\item \textbf{Aggelos Biboudis, École Polytechnique Fédérale de Lausanne}
+
+	\item \textbf{Yoonsik Cheon, University of Texas at El Paso}
+
+	\item \textbf{Shigeru Chiba, University of Tokyo}
+
+	\item \textbf{David Chiu, University of Puget Sound}
+
+	\item Julian Dolby, IBM T. J. Watson Research Center
+
+	\item \textbf{Robert Dyer, Bowling Green State University}
+
+	\item \textbf{George Fourtounis, University of Athens}
+
+	\item Lyle Franklin, Pivotal, Inc.
+
+	\item \textbf{Alex Gyori, Facebook}
+
+	\item Jan Lahoda, Oracle Corporation
+
+	\item \textbf{Yuheng Long, Google}
+
+	\item \textbf{Hidehiko Masuhara, Tokyo Institute of Technology}
+
+	\item \textbf{Davood Mazinanian, University of British Columbia}
+
+	\item \textbf{Hua Ming, Oakland University}
+
+	\item \textbf{Sebastian Nielebock, Otto von Guericke University}
+
+	\item \textbf{Hoan Nguyen, Iowa State University}
+
+	\item Frank Ortmeier, Otto von Guericke University
+
+	\item \textbf{Subash Shankar, City University of New York (CUNY) Hunter College}
+
+	\item \textbf{Nikolaos Tsantalis, Concordia University}
+
+	\item \textbf{Ganesha Upadhyaya, Huawei R\&D}
+
+	\item Titus Winters, Google
+
+	\item Erik Wittern, IBM T. J. Watson Research Center
+
+	\item Neng-Fa Zhao, City University of New York (CUNY) Brooklyn College
+
 \end{enumerate}
 
 \subsection{Call for Papers}
 %Links to preliminary web site of the workshop and call for papers.
-The preliminary website for the workshop as well as the call for papers can be found here:
+
+The preliminary website for the workshop, as well as the call for papers, can be found here:
 
 \begin{center}
-  \texttt{\url{https://w-api.github.io/}}
+  \texttt{\url{http://foopl.github.io}}
 \end{center}
 
 \section{Workshop History}
 
-\updated{The first edition of the workshop was held on May 23, 2017, co-located with ICSE 2017 in Buenos Aires, Argentina. The workshop had five accepted papers out of nine submissions, one industry talk from Google, a keynote by Prof. Brad Myers, and 16 registered attendees. It's website is available here:}
-
-\begin{center}
-  \texttt{\url{https://w-api.github.io/2017/}}
-\end{center}
+This will be the first year of the workshop.
 
 \section{Organizers' Bios}
 %a brief description of each organizer's background, including relevant past experience in organizing conferences and workshops.
+
 \begin{itemize}
-\setlength\itemsep{5pt}
-\item \textbf{Sven Amann} is currently a fifth-year PhD student at the Technische Universit\"{a}t Darmstadt. His research interests include developer-assistance tools for API use, bug detection, mining software repositories, and software testing. He was involved in organizing WAPI'17.
 
-\item \textbf{Dr. Sarah Nadi} is an assistant professor at the University of Alberta. Her research interests include mining software repositories, software product lines, and helping developers use APIs correctly. She was the main organizer for WAPI'17.
+	\item \textbf{Dr.~Raffi Khatchadourian} is an assistant professor City University of New York (CUNY) Hunter College. His research interests include program analysis, program transformation, and automated refactoring, including its impact on API consumption. He helped organize the LaMod'16 workshop at MODULARITY'16 and WAPI'17 at ICSE'18. He has also served as the web chair for ECOOP'11 and is currently serving as the publicity chair for ESEC/FSE'18.
 
-\item \textbf{Dr. Hoan Nguyen} is a post-doctoral researcher at Iowa State University. His research interests include program analysis, software evolution and maintenance, and mining software repositories. He has extensive expertise in mining API specifications and adaptations from client code. He has been involved in organizing tutorials at ICSE'14 and SPLASH'15, the first Midwest Big Data Summer School 2016, and ICSE'17 (WAPI'17).
+	\item \textbf{Dr.~Mehdi Bagherzadeh} is an assistant professor at Oakland University. His research interest is in making engineering of correct concurrent software easier, working at the intersection of programming languages, formal methods and software engineering. He has been on the organizing committee of ESE/FSE'18, PLRP@COMPSAC'18, and the Midwest Big Data Summer School '16.
 
-\item \textbf{Dr. Tien Nguyen} is an associate professor at The University of Texas at Dallas. His research interests include program analysis, large-scale mining software repositories, and statistical approaches in software engineering. He has been involved in organizing workshops and tutorials at ICSE'14, SPLASH'14, SPLASH'15, and ICSE'17 (WAPI'17).
-
-\item \textbf{Dr.~Raffi Khatchadourian} is an assistant professor at Hunter College and the Graduate Center at the City University of New York. His research interests include program analysis, program transformation, and automated refactoring, including its impact on API consumption. He was a participant at WAPI'17, organized the LaMod'16 workshop at MODULARITY'16. He has also served as the web chair for ECOOP'11 and is currently serving as the publicity chair for ESEC/FSE'18.
 \end{itemize}
 
+\section*{Acknowledgment}
+
+We would like to thank Sebastian Nielebock and Robert Dyer for their insightful comments and helpful feedback regarding this proposal. Portions of this proposal are based on the WAPI'18 proposal of ICSE'18.
+
 % IEEE references
-\bibliographystyle{myabbrv_withpagesandpublisher}
+\bibliographystyle{IEEEtranS}
 % ACM references
 % \bibliographystyle{ACM-Reference-Format}
-\bibliography{refs.bib}
+\bibliography{refs}
 
 \newpage
 \onecolumn
 
 \begin{center}
-\Large{\textbf{Call For Papers}}
+	\textbf{Call For Papers}
 \end{center}
 
-Application Programming Interfaces (APIs) are an essential mechanism for software reuse on many levels, such as libraries or web services. However, over the past two decades, many researchers have shown inherent problems with APIs, such as providing useful documentation for proper use, detecting correct usage patterns or wrong usages, and migrating between API versions. While these efforts have advanced the state of the art, most of these problems still exist today. We believe it is time to reflect and compare experiences from different perspectives and to come up with new solutions to the above challenges. 
+Using functional programming language constructs in mainstream Object-Oriented languages is becoming increasingly pervasive. For example, developers can now use lambdas, stream, and MapReduce-style computations in languages such as Java, C\#, F\# and Scala, to name a few. Through these mechanisms, developers can declaratively process native data structure 
+% like collections
+and infinite data structures. Streaming Application Programmer Interfaces (APIs), for instance,
+% available in many mainstream Object-Oriented (OO) programming languages, 
+support this paradigm fusing. Other mechanisms include lambdas
+% , i.e., (typically stateless) first-class computational units facilitating deferred execution, 
+and option types, i.e., nomadic types supporting MapReduce-style operations.
 
-The 2nd International Workshop on API Usage and Evolution (\shortname{}) provides a venue for researchers and practitioners to come together and discuss the open challenges that API users and designers face. For example, how can we measure the quality of an API\@? How can we accurately rely on client code for identifying patterns when the rule of ``the majority do it right'' does not always hold (e.g., in security-related APIs)? What is the best way to present API recommendations and API usages to a developer?
-%
-\updated{The goal of the workshop is to identify the current open challenges in the area and define a roadmap for innovative solutions. Together with all workshop participants, we aim to publish this roadmap as a New Ideas Paper, e.g., in ASE'18, ICSE'19, SANER'19, or FSE'19.
-Before the workshop, the organizers will derive questions from the accepted papers and ask participants for feedback. This will serve as a framework for workshop discussions. After the workshop, the organizers will draft a respective publication from the results of the discussions and ask participants to contribute to it.}
+These language features have many benefits, including succinct and nearly effortless
+% (syntax-wise)
+parallelism. However, combining the paradigms may result in code that behaves in ways not expected by developers. For instance, unexpected errors and suboptimal performance may be incurred as subtle considerations are required to produce code that is correct, optimally parallelizable, efficient, reliable, and free of bugs related to nontermination, nondeterminism, and mismanaged resource cleanup in using these constructs. Moreover, constructs and APIs may not behave in ways developers expect. Developers may also not prefer to use these constructs to write concurrent code, perhaps missing opportunities where this modern technology may be beneficial.
+% And, API developers may be restricted in writing libraries that are maximally usable and extendable due to current language design.
 
+One significant problem is that MapReduce is traditionally highly distributed with no shared memory, whereas streaming APIs in mainstream OO languages execute within a single node under multiple threads sharing the same memory. This difference makes using these constructs and APIs prone to 
+% such problems as 
+thread contention, necessitating great care in writing correct yet efficient code. Moreover, discovering and repairing these problems may involve complex interprocedural whole-program analysis, a thorough understanding of construct intricacies, and detailed knowledge of situational API replacements. Manually detecting problematic code areas (smells) and uncovering appropriate optimizations that transform source code while preserving its original semantics (refactoring) can be daunting, especially
+% in large and complex projects or 
+when developers are unfamiliar with how best to use such constructs and APIs.
 
-\vspace{0.2cm}
+The 1st International Workshop on Functional-inspired Language Features in Mainstream Object-Oriented Programming Languages (FOOPL) aims to bring together both practitioners and researchers interested in this emerging topic with the goal of sharing results and ideas in solving crucial problems in the mass adaptation, correct usage, language and API design and implementation, and tool support of functional-inspired language constructs in mainstream OO languages.
+The workshop will also cover a broader view of this technology by incorporating additional artifacts beyond code, including requirements, specification, and tests for this new paradigm. Practitioners and researchers will be encouraged to engage in
+% thought-provoking 
+discussions surrounding these topics so that this relatively new technology has the best support for success. The workshop will also provide a productive and constructive setting for
+% industry and academia 
+collaboration.
 
-\noindent
-\textbf{\large Topics}
-\vspace{0.2cm}
+% \noindent
+% \textbf{Topics}
 
 Topics of interest include, but are not limited to:
-\begin{itemize}
-\setlength\itemsep{5pt}
 
-\item API design
-\item API specification/documentation
-\item API quality metrics
-\item API usage recommendation
-\item API misuse detection
-\item API maintenance
-\item API evolution and migration
-\item Evolution of API documentation
-\item Leveraging different sources of data to perform/support any of the above tasks
-\item Suitable representations for usage patterns
-\item User-friendly ways of presenting API and API-usage recommendations to the developer
-\item User or designer perspectives of API usage and evolution
-\item Negative experiences (what did not work)
-\item Identification of open challenges and proposed solutions
-\item Transfer of approaches between different types of APIs, such as library APIs or web APIs
-\item Synergies between API-research challenges and other research areas  
+\begin{itemize}
+
+	\item Design and implementation of functional-inspired language and streaming APIs in mainstream Object-Oriented languages.
+
+	\item Extensibility of streaming APIs and functional-inspired language features and constructs.
+
+	\item Empirical results on how developers (expect to) use current streaming APIs and lambdas in mainstream OO languages.
+
+	\item Assessing upcoming language features and APIs.
+
+	\item Issues arising from the interplay of functional and mainstream OO paradigms.
+
+	\item Refactoring, migrating, and re-engineering of mainstream OO systems to make use of functional-inspired language features.
+
+	\item Using functional
+		% language
+		constructs in other software engineering artifacts
+		% and activities 
+		such as requirements, documentation, and specification.
+
+	\item Bug and suboptimal performance detection in the (mis)use of streaming APIs and lambdas.
+
+	\item Quality metrics for assessing 
+		% functional-inspired 
+		language features
+		% or streaming API 
+		usability in mainstream OO software 
+		% API and language 
+		(engineer perspective).
+
+	\item Quality metrics for assessing the actual usage of 
+		% functional-inspired 
+		language features
+		% or streaming APIs 
+		% (API and language consumer perspective).
+		(consumer perspective).
+
+	\item Automated repair of programs that use streaming APIs, lambdas, or other function-inspired constructs or APIs.
+
+	\item Automated testing of mainstream OO programs using functional-inspired constructs.
+
+	\item Using streaming APIs and lambdas in Computer Science education.
+
+	\item Concurrency using streaming APIs and lambdas.
+
+	\item Static analyses for programs using functional-inspired features in OO languages.
+
+	\item Run-time support for improving the efficiency of streaming APIs.
+
+	\item Identification of open challenges and proposed solutions.
+
+	\item Synergies between
+		% streaming API/
+		functional-inspired mainstream OO programming language research
+		% challenges 
+		and other research areas.
+
 \end{itemize}
 
-
-\vspace{0.2cm}
 \noindent
 \textbf{\large Submission Information}
-\vspace{0.2cm}
 
-\shortname{} 2018 invites contributions in the form of \textbf{4-page papers} from both researchers and practitioners, as well as \textbf{talk abstracts} from practitioners. Submissions can be research papers, practice papers, position papers, or experience reports. All submissions should describe unpublished work and must have been neither previously accepted for publication nor concurrently submitted for review in another journal, book, conference, or workshop. Submissions are peer-reviewed and accepted papers will appear in the workshop proceedings.
+\shortname{} 2018 invites contributions in the form of papers that are no more than \textbf{4 pages} in length. Submissions can stem from either academia or industry. We also welcome industrial talk abstracts. Research papers, practice papers, position papers, and experience reports are all welcomed. All submissions should describe unpublished work and must have been neither previously accepted for publication nor concurrently submitted for review in another journal, book, conference, or workshop. Submissions are peer-reviewed and accepted papers will appear in the workshop proceedings.
 
-\vspace{0.2cm}
 \noindent
 \textbf{\large Important Dates}
-\vspace{0.2cm}
 
-\textbf{Workshop papers submissions due}: Monday February 5th 2018
+\textbf{Workshop papers submissions due}: February 1, 2019; \textbf{Notification to authors:} March 1, 2019; \textbf{Camera-ready copies due:} March 15, 2019
 
-\textbf{Notification to accepted papers:} Monday March 5th 2018
-
-\textbf{Camera-ready copies due:} Monday March 19th 2018
-
-\vspace{0.2cm}
-
-The official publication date of the workshop proceedings is the date the proceedings are made available in the ACM Library. This date may be up to two weeks prior to the first day of ICSE 2018. The official publication date affects the deadline for any patent filings related to published work.
+% The official publication date of the workshop proceedings is the date the proceedings are made available in the ACM Library. This date may be up to two weeks prior to the first day of ICSE 2019. The official publication date affects the deadline for any patent filings related to published work.
 
 \end{document}
