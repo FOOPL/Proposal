@@ -192,3 +192,5 @@ TSWLatexianTemp*
 
 # Document
 main.pdf
+/.project
+/make.bat
